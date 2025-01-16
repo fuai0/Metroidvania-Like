@@ -1,0 +1,8 @@
+# ignore unity library
+/Library
+.vs/
+.vsconfig
+/Logs
+/Packages
+/Temp
+/obj
