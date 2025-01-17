@@ -68,10 +68,8 @@
     <Compile Include="Assets\Scripts\Enemy\EnemyState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerJumpState.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonGroundedState.cs" />
-    <Compile Include="Assets\Scripts\ItemObject.cs" />
     <Compile Include="Assets\Scripts\Controllers\Skill_Controllers\Crystal_Skill_Controller.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonStunnedState.cs" />
-    <Compile Include="Assets\Scripts\UI\HeathBar_UI.cs" />
     <Compile Include="Assets\Scripts\Skill\Crystal_Skill.cs" />
     <Compile Include="Assets\Scripts\Controllers\Skill_Controllers\Blackhole_Skill_Controller.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonIdleState.cs" />
@@ -90,15 +88,19 @@
     <Compile Include="Assets\Scripts\Player\PlayerBlackholeState.cs" />
     <Compile Include="Assets\Scripts\Skill\Dash_Skill.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerGroundedState.cs" />
+    <Compile Include="Assets\Scripts\Items and Inventory\ItemData.cs" />
+    <Compile Include="Assets\Scripts\UI\UI_CraftSlot.cs" />
     <Compile Include="Assets\Scripts\Enemy\EnemyStateMachine.cs" />
+    <Compile Include="Assets\Scripts\UI\UI_EquipmentSlot.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonDieState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCatchSwordState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Controllers\Skill_Controllers\Clone_Skill_Controller.cs" />
     <Compile Include="Assets\Scripts\Skill\SkillManager.cs" />
+    <Compile Include="Assets\Scripts\Items and Inventory\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\UI\UI_HeathBar.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonMoveState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerPrimaryAttackState.cs" />
-    <Compile Include="Assets\Scripts\ItemData.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton\SkeletonBattleState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerMoveState.cs" />
@@ -107,16 +109,17 @@
     <Compile Include="Assets\Scripts\Player\PlayerAirState.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerDieState.cs" />
     <Compile Include="Assets\Scripts\ParallaxBackground.cs" />
-    <Compile Include="Assets\Scripts\InventoryItem.cs" />
+    <Compile Include="Assets\Scripts\Items and Inventory\ItemData_Equipment.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
-    <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\EntityFX.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\Controllers\Skill_Controllers\Sword_Skill_Controller.cs" />
+    <Compile Include="Assets\Scripts\Items and Inventory\Inventory.cs" />
     <Compile Include="Assets\Scripts\Skill\Blackhole_Skill.cs" />
     <Compile Include="Assets\Scripts\Stats\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Stats\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStateMachine.cs" />
+    <Compile Include="Assets\Scripts\Items and Inventory\ItemObject.cs" />
     <Compile Include="Assets\Scripts\Skill\Skill.cs" />
   </ItemGroup>
   <ItemGroup>

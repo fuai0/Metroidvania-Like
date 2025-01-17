@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeathBar_UI : MonoBehaviour
+public class UI_HeathBar : MonoBehaviour
 {
     private Entity entity;
     private CharacterStats stats;

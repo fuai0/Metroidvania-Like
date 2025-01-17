@@ -5,7 +5,7 @@ public class CharacterStats : MonoBehaviour
     private EntityFX fx;
 
     [Header("Majior stats")]
-    public Stat strenth; // 每点提高1点伤害和1%暴击伤害
+    public Stat strength; // 每点提高1点伤害和1%暴击伤害
     public Stat agility; // 每点提高1点闪避和1%的暴击几率
     public Stat intelligence; // 每点提高1点魔法攻击和一点魔法抗性
     public Stat vitality; // 每点提高3-5点的生命值
@@ -14,12 +14,12 @@ public class CharacterStats : MonoBehaviour
     public Stat damage;
     public Stat cirtChance;
     public Stat cirtPower; // 基础值150
-    public Stat magicResistance;
 
     [Header("Defencive stats")]
     public Stat maxHealth;
     public Stat armor;
     public Stat evasion;
+    public Stat magicResistance;
 
     [Header("Magic stats")]
     public Stat fireDamage;
@@ -79,7 +79,7 @@ public class CharacterStats : MonoBehaviour
         if (CanAvoidAttack(_targetStats))
             return;
 
-        int totalDamage = damage.GetValue() + strenth.GetValue();
+        int totalDamage = damage.GetValue() + strength.GetValue();
 
         if(CanCirt())
         {
@@ -329,7 +329,7 @@ public class CharacterStats : MonoBehaviour
 
     private int CirtDamage(int _damage)
     {
-        float totalCirtPower = (cirtPower.GetValue() + strenth.GetValue()) * .01f;
+        float totalCirtPower = (cirtPower.GetValue() + strength.GetValue()) * .01f;
         float cirtDamage = _damage * totalCirtPower;
 
         return Mathf.RoundToInt(cirtDamage);
