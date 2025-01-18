@@ -7,7 +7,7 @@ public enum EquipmentType
     Weapon,
     Armor,
     Amulet,
-    Dlask
+    Flask
 }
 
 
@@ -15,6 +15,9 @@ public enum EquipmentType
 public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
+
+    public float itemCooldown;
+    public ItemEffect[] itemEffects; 
 
     [Header("Majior stats")]
     public int strength; 
@@ -40,6 +43,14 @@ public class ItemData_Equipment : ItemData
 
     [Header("craft requirement")]
     public List<InventoryItem> craftingMaterials;
+
+    public void Effect(Transform _enemyPosition)
+    {
+        foreach(var item in itemEffects)
+        {
+            item.ExecuteEffect(_enemyPosition);
+        }
+    }
 
     public void AddModifiers()
     {

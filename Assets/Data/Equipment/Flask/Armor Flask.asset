@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: abc45b849cf56a94aa2e80749446aeaa, type: 3}
-  m_Name: Plate Armor
+  m_Name: Armor Flask
   m_EditorClassIdentifier: 
   itemType: 1
-  itemName: Plate Armor
-  icon: {fileID: -1581127718, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
-  equipmentType: 1
+  itemName: Armor Flask
+  icon: {fileID: -165920498, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  dropChance: 0
+  equipmentType: 3
+  itemCooldown: 15
+  itemEffects:
+  - {fileID: 11400000, guid: 23343bf9575ee8f4e990c29b023a24ee, type: 2}
+  - {fileID: 11400000, guid: 0d612ed121ca26c489421d1321cb70df, type: 2}
   strength: 0
   agility: 0
   intelligence: 0
@@ -23,8 +28,8 @@ MonoBehaviour:
   damage: 0
   cirtChance: 0
   cirtPower: 0
-  maxHealth: 15
-  armor: 10
+  maxHealth: 0
+  armor: 0
   evasion: 0
   magicResistance: 0
   fireDamage: 0

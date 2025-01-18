@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82facc03d1afb234c981cdc6bab5ad63, type: 3}
-  m_Name: AnimalSkin
+  m_Script: {fileID: 11500000, guid: 526988b33d2c72646ac288201096ead6, type: 3}
+  m_Name: Fire Buff
   m_EditorClassIdentifier: 
-  itemName: Animal Skin
-  icon: {fileID: -973012730, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
+  buffType: 11
+  buffAmount: 15
+  buffDuration: 5

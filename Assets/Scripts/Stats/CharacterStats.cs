@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterStats : MonoBehaviour
@@ -46,6 +47,8 @@ public class CharacterStats : MonoBehaviour
 
     public System.Action onHealthChanged;
 
+    public bool isDead {  get; private set; }
+
     protected virtual void Start()
     {
         cirtPower.SetDefaultValue(150);
@@ -72,7 +75,19 @@ public class CharacterStats : MonoBehaviour
             ApplyIgniteDamage();
     }
 
-    
+    public virtual void IncreaseStat(int _modifier, float _duration,Stat _statToModify)
+    {
+        StartCoroutine(StatModCoroutine(_modifier, _duration, _statToModify));
+    }
+
+    IEnumerator StatModCoroutine(int _modifier, float _duration, Stat _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
@@ -89,8 +104,7 @@ public class CharacterStats : MonoBehaviour
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
         _targetStats.TakeDamage(totalDamage);
 
-        // 如果武器附魔可以
-        //DoMagicDamage(_targetStats);
+        DoMagicDamage(_targetStats);
     }
 
     #region 魔法伤害和魔法状态
@@ -243,8 +257,7 @@ public class CharacterStats : MonoBehaviour
 
             if (currentHealth < 0)
             {
-                Die(); 
-                isIgnited = false;
+                Die();
             }
 
             ignitedDamageTimer = igniteDamageCooldown;
@@ -270,6 +283,17 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
+    public virtual void IncreaseHealth(int _amount)
+    {
+        currentHealth += _amount;
+
+        if(currentHealth > maxHealth.GetValue())
+            currentHealth = maxHealth.GetValue();
+
+        if (onHealthChanged != null)
+            onHealthChanged();
+    }
+
     protected virtual void DecreaseHealth(int _damage)
     {
         currentHealth -= _damage;
@@ -280,7 +304,7 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void Die()
     {
-
+        isDead = true;
     }
 
     #region 统计计算

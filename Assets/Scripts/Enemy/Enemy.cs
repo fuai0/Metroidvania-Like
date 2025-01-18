@@ -57,7 +57,7 @@ public class Enemy : Entity
         moveSpeed = defaultMoveSpeed;
     }
 
-    public virtual void FreezeTimer(bool _timrFrozen)
+    public virtual void FreezeTime(bool _timrFrozen)
     {
         if(_timrFrozen)
         {
@@ -71,13 +71,15 @@ public class Enemy : Entity
         }
     }
 
-    protected virtual IEnumerator FreezeTimerFor(float _seconds)
+    public virtual void FreezeTimeFor(float _duration) => StartCoroutine(FreezeTimerCoroutine(_duration));
+
+    protected virtual IEnumerator FreezeTimerCoroutine(float _seconds)
     {
-        FreezeTimer(true);
+        FreezeTime(true);
 
         yield return new WaitForSeconds(_seconds);
 
-        FreezeTimer(false);
+        FreezeTime(false);
     }
 
     #region Counter Attack Window

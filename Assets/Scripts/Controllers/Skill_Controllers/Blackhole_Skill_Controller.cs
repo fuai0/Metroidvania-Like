@@ -167,7 +167,7 @@ public class Blackhole_Skill_Controller : MonoBehaviour
     {
         if(collision.GetComponent<Enemy>() != null)
         {
-            collision.GetComponent<Enemy>().FreezeTimer(true);
+            collision.GetComponent<Enemy>().FreezeTime(true);
 
             CreateHotKey(collision);
         }
@@ -175,7 +175,7 @@ public class Blackhole_Skill_Controller : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        collision.GetComponent<Enemy>()?.FreezeTimer(false);
+        collision.GetComponent<Enemy>()?.FreezeTime(false);
     }
 
     private void CreateHotKey(Collider2D collision)

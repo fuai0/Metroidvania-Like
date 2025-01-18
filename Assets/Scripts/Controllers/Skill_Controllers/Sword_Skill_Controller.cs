@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public class Sword_Skill_Controller : MonoBehaviour
@@ -40,7 +39,7 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponentInChildren<Animator>();    
+        anim = GetComponentInChildren<Animator>();
         cd = GetComponent<CircleCollider2D>();
     }
 
@@ -49,7 +48,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetupSword(Vector2 _dir,float _gravityScale,Player _player,float _freezeTimeDuration,float _returnSpeed)
+    public void SetupSword(Vector2 _dir, float _gravityScale, Player _player, float _freezeTimeDuration, float _returnSpeed)
     {
         player = _player;
 
@@ -59,9 +58,9 @@ public class Sword_Skill_Controller : MonoBehaviour
 
         freezeTimeDuration = _freezeTimeDuration;
 
-        if(pierceAmount <= 0) 
+        if (pierceAmount <= 0)
         {
-            anim.SetBool("Rotation", true); 
+            anim.SetBool("Rotation", true);
         }
 
         spinDirection = Mathf.Clamp(rb.linearVelocity.x, -1, 1);
@@ -69,7 +68,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         Invoke("DestoryMe", 7);
     }
 
-    public void SetupBounce(bool _isBouncing,int _amountOfBounce,float _bounceSpeed)
+    public void SetupBounce(bool _isBouncing, int _amountOfBounce, float _bounceSpeed)
     {
         isBouncing = _isBouncing;
         bounceAmount = _amountOfBounce;
@@ -83,7 +82,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         pierceAmount = _pierceAmount;
     }
 
-    public void SetupSpin(bool _isSpinning,float _maxTravelDistance,float _spinDuration,float _hitCooldown)
+    public void SetupSpin(bool _isSpinning, float _maxTravelDistance, float _spinDuration, float _hitCooldown)
     {
         isSpinning = _isSpinning;
         maxTravelDistance = _maxTravelDistance;
@@ -134,7 +133,7 @@ public class Sword_Skill_Controller : MonoBehaviour
             {
                 spinTimer -= Time.deltaTime;
 
-                transform.position = Vector2.MoveTowards(transform.position,new Vector2(transform.position.x+spinDirection,transform.position.y),1.5f*Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime);
 
                 if (spinTimer < 0)
                 {
@@ -203,7 +202,7 @@ public class Sword_Skill_Controller : MonoBehaviour
             return;
         }
 
-        if(collision.GetComponent<Enemy>() != null)
+        if (collision.GetComponent<Enemy>() != null)
         {
             Enemy enemy = collision.GetComponent<Enemy>();
             SwordSkillDamage(enemy);
@@ -217,7 +216,12 @@ public class Sword_Skill_Controller : MonoBehaviour
     private void SwordSkillDamage(Enemy enemy)
     {
         PlayerManager.instance.player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
-        enemy.StartCoroutine("FreezeTimerFor", freezeTimeDuration);
+        enemy.FreezeTimeFor(freezeTimeDuration);
+
+        ItemData_Equipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+
+        if (equipedAmulet != null)
+            equipedAmulet.Effect(enemy.transform);
     }
 
     private void SetupTargetsForBounce(Collider2D collision)
@@ -241,13 +245,13 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void StuckInto(Collider2D collision)
     {
-        if(pierceAmount > 0 && collision.GetComponent<Enemy>() != null)
+        if (pierceAmount > 0 && collision.GetComponent<Enemy>() != null)
         {
             pierceAmount--;
             return;
         }
 
-        if(isSpinning)
+        if (isSpinning)
         {
             return;
         }
@@ -258,7 +262,7 @@ public class Sword_Skill_Controller : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Kinematic;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
 
-        if(isBouncing && enemyTarget.Count > 0)
+        if (isBouncing && enemyTarget.Count > 0)
         {
             return;
         }

@@ -7,6 +7,8 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
 
+    public List<ItemData> startingEquipment;
+
     public List<InventoryItem> equipment;
     public Dictionary<ItemData_Equipment, InventoryItem> equipmentDictionary;
 
@@ -24,6 +26,13 @@ public class Inventory : MonoBehaviour
     private UI_ItemSlot[] iventoryItemSlot;
     private UI_ItemSlot[] stashItemSlot;
     private UI_EquipmentSlot[] equipmentSlot;
+
+    [Header("items cooldown")]
+    private float lastTimeUsedFlask;
+    private float lastTimeUsedArmor;
+
+    private float flaskCooldown;
+    private float armorCooldown;
 
     private void Awake()
     {
@@ -47,6 +56,15 @@ public class Inventory : MonoBehaviour
         iventoryItemSlot = inventorySlotParent.GetComponentsInChildren<UI_ItemSlot>();
         stashItemSlot = stashSlotParent.GetComponentsInChildren<UI_ItemSlot>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>();
+        AddStartingItems();
+    }
+
+    private void AddStartingItems()
+    {
+        for (int i = 0; i < startingEquipment.Count; i++)
+        {
+            AddItem(startingEquipment[i]);
+        }
     }
 
     public void EquipItem(ItemData _item)
@@ -87,7 +105,7 @@ public class Inventory : MonoBehaviour
 
     private void UpdateSlotUI()
     {
-        for(int i = 0;i < equipmentSlot.Length;i++)
+        for (int i = 0; i < equipmentSlot.Length; i++)
         {
             foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
             {
@@ -107,7 +125,7 @@ public class Inventory : MonoBehaviour
         }
 
 
-        for (int i = 0;i < inventory.Count;i++)
+        for (int i = 0; i < inventory.Count; i++)
         {
             iventoryItemSlot[i].UpdateSlot(inventory[i]);
         }
@@ -122,7 +140,7 @@ public class Inventory : MonoBehaviour
     {
         if (_item.itemType == ItemType.Equipment)
             AddToInventory(_item);
-        else if(_item.itemType == ItemType.Material)
+        else if (_item.itemType == ItemType.Material)
             AddToStash(_item);
 
         UpdateSlotUI();
@@ -187,15 +205,15 @@ public class Inventory : MonoBehaviour
         UpdateSlotUI();
     }
 
-    public bool CanCraft(ItemData_Equipment _itemToCraft,List<InventoryItem> _requiredMaterials)
+    public bool CanCraft(ItemData_Equipment _itemToCraft, List<InventoryItem> _requiredMaterials)
     {
         List<InventoryItem> materialsToRemove = new List<InventoryItem>();
 
-        for(int i = 0;i < _requiredMaterials.Count;i++)
+        for (int i = 0; i < _requiredMaterials.Count; i++)
         {
             if (stashDictionary.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
             {
-                if(stashValue.stackSize < _requiredMaterials[i].stackSize)
+                if (stashValue.stackSize < _requiredMaterials[i].stackSize)
                 {
                     Debug.Log("材料不足");
                     return false;
@@ -212,7 +230,7 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < materialsToRemove.Count;i++)
+        for (int i = 0; i < materialsToRemove.Count; i++)
         {
             RemoveItem(materialsToRemove[i].data);
         }
@@ -222,4 +240,57 @@ public class Inventory : MonoBehaviour
         Debug.Log(_itemToCraft.itemName + " 制作成功");
         return true;
     }
+
+    public List<InventoryItem> GetEquipmentList() => equipment;
+    public List<InventoryItem> GetStashList() => stash;
+
+    public ItemData_Equipment GetEquipment(EquipmentType _type)
+    {
+        ItemData_Equipment equipedItemData = null;
+
+        foreach (KeyValuePair<ItemData_Equipment, InventoryItem> item in equipmentDictionary)
+        {
+            if (item.Key.equipmentType == _type)
+                equipedItemData = item.Key;
+        }
+
+        return equipedItemData;
+    }
+
+    public void UseFlask()
+    {
+        ItemData_Equipment currentFlask = GetEquipment(EquipmentType.Flask);
+
+        if (currentFlask == null)
+            return;
+
+        bool canUseFlask = Time.time > lastTimeUsedFlask + flaskCooldown;
+
+        if (canUseFlask)
+        {
+            flaskCooldown = currentFlask.itemCooldown;
+            currentFlask.Effect(null);
+            lastTimeUsedFlask = Time.time;
+        }
+        else
+        {
+            Debug.Log("Flask on cooldown");
+        }
+    }
+
+    public bool  CanUseArmor()
+    { 
+        ItemData_Equipment currentArmor = GetEquipment(EquipmentType.Armor);
+
+        if(Time.time > lastTimeUsedArmor + armorCooldown)
+        {
+            armorCooldown = currentArmor.itemCooldown;
+            lastTimeUsedArmor = Time.time;
+            return true;
+        }
+
+        Debug.Log("Armor on cooldown");
+        return false;
+    }
+
 }
