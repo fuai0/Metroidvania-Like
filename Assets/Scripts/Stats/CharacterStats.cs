@@ -1,5 +1,27 @@
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+
+public enum StatType
+{
+    strength,
+    agility,
+    intelligence,
+    vitality,
+
+    damage,
+    cirtChance,
+    cirtPower,
+
+    maxHealth,
+    armor,
+    evasion,
+    magicResistance,
+
+    fireDamage,
+    iceDamage,
+    lightingDamage
+}
 
 public class CharacterStats : MonoBehaviour
 {
@@ -9,7 +31,7 @@ public class CharacterStats : MonoBehaviour
     public Stat strength; // 每点提高1点伤害和1%暴击伤害
     public Stat agility; // 每点提高1点闪避和1%的暴击几率
     public Stat intelligence; // 每点提高1点魔法攻击和一点魔法抗性
-    public Stat vitality; // 每点提高3-5点的生命值
+    public Stat vitality; // 每点提高5点的生命值
 
     [Header("Offensive stats")]
     public Stat damage;
@@ -52,7 +74,7 @@ public class CharacterStats : MonoBehaviour
     protected virtual void Start()
     {
         cirtPower.SetDefaultValue(150);
-        currentHealth = maxHealth.GetValue();
+        currentHealth = maxHealth.GetValue() + vitality.GetValue();
 
         fx = GetComponent<EntityFX>();
     }
@@ -360,4 +382,29 @@ public class CharacterStats : MonoBehaviour
     }
 
     #endregion
+
+    public Stat GetStat(StatType _statType)
+    {
+        switch (_statType)
+        {
+            case StatType.strength: return strength;
+            case StatType.agility: return agility;
+            case StatType.intelligence: return intelligence;
+            case StatType.vitality: return vitality;
+
+            case StatType.damage: return damage;
+            case StatType.cirtChance: return cirtChance;
+            case StatType.cirtPower: return cirtPower;
+
+            case StatType.maxHealth: return maxHealth;
+            case StatType.armor: return armor;
+            case StatType.evasion: return evasion;
+            case StatType.magicResistance: return magicResistance;
+
+            case StatType.fireDamage: return fireDamage;
+            case StatType.iceDamage: return iceDamage;
+            case StatType.lightingDamage: return lightingDamage;
+        }
+        return null;
+    }
 }
