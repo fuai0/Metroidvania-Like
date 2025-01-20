@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4853119b19a07ef43a0bd0a90a3ddb59, type: 3}
   m_Name: Ice And Fire Effect
   m_EditorClassIdentifier: Assembly-CSharp::IceAndFire_Effect
+  effectDescription: Create ice and fire on 3rd attack.
   iceAndFirePrefab: {fileID: 264680698911548695, guid: d5ba8d6f8d631424c9ce56cc0b750f5c, type: 3}
   velocity: {x: 15, y: 0}

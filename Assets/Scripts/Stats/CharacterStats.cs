@@ -70,11 +70,12 @@ public class CharacterStats : MonoBehaviour
     public System.Action onHealthChanged;
 
     public bool isDead {  get; private set; }
+    public bool isVulnerable;
 
     protected virtual void Start()
     {
         cirtPower.SetDefaultValue(150);
-        currentHealth = maxHealth.GetValue() + vitality.GetValue();
+        currentHealth = GetHealth();
 
         fx = GetComponent<EntityFX>();
     }
@@ -95,6 +96,22 @@ public class CharacterStats : MonoBehaviour
         
         if(isIgnited)
             ApplyIgniteDamage();
+    }
+
+    public void MakeVulnerableFor(float _duration) => StartCoroutine(VulnerableCorutine(_duration));
+
+    private IEnumerator VulnerableCorutine(float _duration)
+    {
+        isVulnerable = true;
+
+        yield return new WaitForSeconds(_duration);
+
+        isVulnerable = false;
+    }
+
+    public int GetHealth()
+    {
+        return maxHealth.GetValue() + vitality.GetValue() * 5;
     }
 
     public virtual void IncreaseStat(int _modifier, float _duration,Stat _statToModify)
@@ -309,8 +326,8 @@ public class CharacterStats : MonoBehaviour
     {
         currentHealth += _amount;
 
-        if(currentHealth > maxHealth.GetValue())
-            currentHealth = maxHealth.GetValue();
+        if(currentHealth > GetHealth())
+            currentHealth = GetHealth();
 
         if (onHealthChanged != null)
             onHealthChanged();
@@ -318,6 +335,9 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void DecreaseHealth(int _damage)
     {
+        if (isVulnerable)
+            _damage = Mathf.RoundToInt(_damage * 1.5f);
+
         currentHealth -= _damage;
 
         if (onHealthChanged != null)
@@ -330,7 +350,7 @@ public class CharacterStats : MonoBehaviour
     }
 
     #region Õ≥º∆º∆À„
-    private int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)
+    protected int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)
     {
         if (_targetStats.isChilled)
             totalDamage -= Mathf.RoundToInt(_targetStats.armor.GetValue() * .8f);
@@ -348,7 +368,11 @@ public class CharacterStats : MonoBehaviour
         return totalMagicDamage;
     }
 
-    private bool CanAvoidAttack(CharacterStats _targetStats)
+    public virtual void OnEvasion()
+    {
+    }
+
+    protected bool CanAvoidAttack(CharacterStats _targetStats)
     {
         int totalEvasion = _targetStats.evasion.GetValue() + _targetStats.agility.GetValue();
 
@@ -356,13 +380,14 @@ public class CharacterStats : MonoBehaviour
             totalEvasion += 20;
 
         if (Random.Range(0, 100) < totalEvasion)
-        {     
+        {
+            _targetStats.OnEvasion();
             return true;
         }
         return false;
     }
 
-    private bool CanCirt()
+    protected bool CanCirt()
     {
         int totalCirtChance = cirtChance.GetValue() + agility.GetValue();
 
@@ -373,7 +398,7 @@ public class CharacterStats : MonoBehaviour
         return false;
     }
 
-    private int CirtDamage(int _damage)
+    protected int CirtDamage(int _damage)
     {
         float totalCirtPower = (cirtPower.GetValue() + strength.GetValue()) * .01f;
         float cirtDamage = _damage * totalCirtPower;

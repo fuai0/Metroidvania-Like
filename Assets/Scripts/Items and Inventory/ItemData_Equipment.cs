@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 
 public enum EquipmentType
@@ -16,19 +15,20 @@ public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
 
+    [Header("Unique effect")]
     public float itemCooldown;
-    public ItemEffect[] itemEffects; 
+    public ItemEffect[] itemEffects;
 
     [Header("Majior stats")]
-    public int strength; 
-    public int agility; 
-    public int intelligence; 
+    public int strength;
+    public int agility;
+    public int intelligence;
     public int vitality;
 
     [Header("Offensive stats")]
     public int damage;
     public int cirtChance;
-    public int cirtPower; 
+    public int cirtPower;
 
     [Header("Defencive stats")]
     public int maxHealth;
@@ -48,7 +48,7 @@ public class ItemData_Equipment : ItemData
 
     public void Effect(Transform _enemyPosition)
     {
-        foreach(var item in itemEffects)
+        foreach (var item in itemEffects)
         {
             item.ExecuteEffect(_enemyPosition);
         }
@@ -121,10 +121,20 @@ public class ItemData_Equipment : ItemData
         AddItemDescription(fireDamage, "fireDamage");
         AddItemDescription(iceDamage, "iceDamage");
         AddItemDescription(lightingDamage, "lightingDamage");
-       
-        if(descriptionLength < 5)
+
+        for (int i = 0; i < itemEffects.Length; i++)
         {
-            for(int i = 0;i < 5 - descriptionLength;i++)
+            if (itemEffects[i].effectDescription.Length > 0)
+            {
+                sb.AppendLine();
+                sb.Append("Unique: " + itemEffects[i].effectDescription);
+                descriptionLength++;
+            }
+        }
+
+        if (descriptionLength < 5)
+        {
+            for (int i = 0; i < 5 - descriptionLength; i++)
             {
                 sb.Insert(0, "\n");
             }
@@ -132,14 +142,14 @@ public class ItemData_Equipment : ItemData
         return sb.ToString();
     }
 
-    private void AddItemDescription(int _value,string _name)
+    private void AddItemDescription(int _value, string _name)
     {
-        if(_value != 0)
+        if (_value != 0)
         {
-            if(sb.Length > 0)
+            if (sb.Length > 0)
                 sb.AppendLine();
 
-            if(_value > 0)
+            if (_value > 0)
                 sb.Append("+ " + _value + " " + _name);
 
             descriptionLength++;

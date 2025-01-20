@@ -40,7 +40,7 @@ public class UI_StatSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitHandle
 
 
         if (statType == StatType.maxHealth)
-            statValueText.text = (playerStats.maxHealth.GetValue() + playerStats.vitality.GetValue() * 5).ToString();
+            statValueText.text = playerStats.GetHealth().ToString();
         if(statType == StatType.damage)
             statValueText.text = (playerStats.strength.GetValue() + playerStats.damage.GetValue()).ToString();
         if (statType == StatType.cirtPower)

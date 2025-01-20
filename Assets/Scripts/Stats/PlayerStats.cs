@@ -33,4 +33,30 @@ public class PlayerStats : CharacterStats
         if (currentArmor != null)
             currentArmor.Effect(player.transform);
     }
+
+    public override void OnEvasion()
+    {
+        player.skill.dodge.CreateMirageOnDodge();
+    }
+
+    public void CloneDoDamage(CharacterStats _targetStats,float _multiplier)
+    {
+        if (CanAvoidAttack(_targetStats))
+            return;
+
+        int totalDamage = damage.GetValue() + strength.GetValue();
+
+        if(_multiplier > 0)
+            totalDamage = Mathf.RoundToInt(totalDamage * _multiplier);
+
+        if (CanCirt())
+        {
+            totalDamage = CirtDamage(totalDamage);
+        }
+
+        totalDamage = CheckTargetArmor(_targetStats, totalDamage);
+        _targetStats.TakeDamage(totalDamage);
+
+        DoMagicDamage(_targetStats);
+    }
 }

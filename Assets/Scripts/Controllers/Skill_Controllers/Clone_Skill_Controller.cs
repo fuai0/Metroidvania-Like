@@ -8,6 +8,7 @@ public class Clone_Skill_Controller : MonoBehaviour
     [SerializeField] private float colorLosingSpeed;
 
     private float cloneTimer;
+    private float attackMultiplier;
     [SerializeField] private Transform attackCheck;
     [SerializeField] private float attackCheckRadius = .8f;
     private Transform closestEnemy;
@@ -35,13 +36,12 @@ public class Clone_Skill_Controller : MonoBehaviour
         }
     }
 
-    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy,bool _canDuplicateClone,float _chanceDulicate)
+    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy,bool _canDuplicateClone,float _chanceDulicate,float _attckMultiplier)
     {
         if(_canAttack)
-        {
             anim.SetInteger("AttackNumber", Random.Range(1,4));
-        }
 
+        attackMultiplier = _attckMultiplier;
         transform.position = _newTransform.position + _offset;
         cloneTimer = _cloneDuration;
 
@@ -64,7 +64,16 @@ public class Clone_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                PlayerManager.instance.player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
+                playerStats.CloneDoDamage(hit.GetComponent<CharacterStats>(), attackMultiplier);
+
+                if(PlayerManager.instance.player.skill.clone.canApplyHitEffect)
+                {
+                    ItemData_Equipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);
+
+                    if (weaponData != null)
+                        weaponData.Effect(hit.transform);
+                }
 
                 if(canDuplicateClone)
                 {

@@ -40,10 +40,12 @@ public class PlayerCounterAttackState : PlayerState
 
                     player.anim.SetBool("SuccessfulCounterAttack", true);
 
+                    player.skill.parry.UseSkill(); // 成功使用反击恢复生命
+
                     if(canCreateClone)
                     {
                         canCreateClone = false;
-                        player.skill.clone.CloneCounterAttack(hit.transform);
+                        player.skill.parry.MakeMirageOnParry(hit.transform);
                     }
                 }
             }

@@ -22,8 +22,8 @@ public class UI_HeathBar : MonoBehaviour
 
     private void UpdateHealthUI()
     {
-        float currentHealth = stats.currentHealth;
-        image.fillAmount = currentHealth / (stats.maxHealth.GetValue() + stats.vitality.GetValue());
+        float health = stats.currentHealth;
+        image.fillAmount = health / stats.GetHealth();
     }
 
 
