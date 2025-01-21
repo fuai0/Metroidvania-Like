@@ -27,6 +27,8 @@ public class UI_InGame : MonoBehaviour
             playerStats.onHealthChanged += UpdateHealthUI;
 
         skills = SkillManager.instance;
+
+        UpdateHealthUI();
     }
 
     private void Update()

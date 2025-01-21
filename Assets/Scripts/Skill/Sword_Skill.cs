@@ -73,6 +73,7 @@ public class Sword_Skill : Skill
 
         SetUpGravity();
     }
+
     protected override void Update()
     {
         if(Input.GetKeyUp(KeyCode.Mouse1))
@@ -90,7 +91,18 @@ public class Sword_Skill : Skill
         }
     }
 
+
     #region ½âËø¼¼ÄÜ
+
+    protected override void CheckUnlock()
+    {
+        UnlockSword();
+        UnlockTimeStop();
+        UnlockVolnurable();
+        UnlockBounceSword();
+        UnlockPierceSword();
+        UnlockSpinSword();
+    }
 
     private void UnlockSword()
     {

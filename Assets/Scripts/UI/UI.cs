@@ -1,7 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class UI : MonoBehaviour
 {
+    [Header("End screen")]
+    [SerializeField] private UI_FadeScreen fadeScreen;
+    [SerializeField] private GameObject endText;
+    [SerializeField] private GameObject restartButton;
+    [Space]
     [SerializeField] private GameObject characterUI;
     [SerializeField] private GameObject skillTreeUI;
     [SerializeField] private GameObject craftUI;
@@ -16,6 +22,8 @@ public class UI : MonoBehaviour
     private void Awake()
     {
         SwitchTo(skillTreeUI); // 在技能脚本分配监听事件前将监听事件分配到技能槽
+
+        fadeScreen.gameObject.SetActive(true);
     }
 
     void Start()
@@ -25,10 +33,10 @@ public class UI : MonoBehaviour
         itemToolTip.gameObject.SetActive(false);
         statToolTip.gameObject.SetActive(false);
     }
-    
+
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
             SwitchWithKeyTo(characterUI);
 
         if (Input.GetKeyDown(KeyCode.B))
@@ -44,9 +52,13 @@ public class UI : MonoBehaviour
 
     public void SwitchTo(GameObject _menu)
     {
-        for(int i = 0;i < transform.childCount;i++)
+
+        for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).gameObject.SetActive(false);
+            bool fadeScreen = transform.GetChild(i).GetComponent<UI_FadeScreen>() != null;
+
+            if (!fadeScreen)
+                transform.GetChild(i).gameObject.SetActive(false);
         }
 
         if (_menu != null)
@@ -55,7 +67,7 @@ public class UI : MonoBehaviour
 
     public void SwitchWithKeyTo(GameObject _menu)
     {
-        if(_menu != null && _menu.activeSelf)
+        if (_menu != null && _menu.activeSelf)
         {
             _menu.SetActive(false);
             CheckForInGameUI();
@@ -67,7 +79,7 @@ public class UI : MonoBehaviour
 
     private void CheckForInGameUI()
     {
-        for(int i = 0; i < transform.childCount;i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf)
                 return;
@@ -75,4 +87,20 @@ public class UI : MonoBehaviour
 
         SwitchTo(inGameUI);
     }
+
+    public void SwitchOnEndScreen()
+    {
+        fadeScreen.FadeOut();
+        StartCoroutine(EndScreenCorutine());
+    }
+
+    IEnumerator EndScreenCorutine()
+    {
+        yield return new WaitForSeconds(1);
+        endText.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        restartButton.SetActive(true);
+    }
+
+    public void RestartGameButton() => GameManager.instance.RestartScence();
 }

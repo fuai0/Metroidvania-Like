@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour,ISaveManager
 {
     public static Inventory instance;
 
@@ -36,6 +37,10 @@ public class Inventory : MonoBehaviour
     public float flaskCooldown {  get; private set; }
     private float armorCooldown;
 
+    [Header("Data base")]
+    public List<InventoryItem> loadedItems;
+    public List<ItemData_Equipment> loadedEquipments;
+
     private void Awake()
     {
         if (instance == null)
@@ -64,6 +69,24 @@ public class Inventory : MonoBehaviour
 
     private void AddStartingItems()
     {
+        if(loadedItems.Count > 0 || loadedEquipments.Count > 0)
+        {
+            foreach(var item in loadedItems)
+            {
+                for(int i = 0; i < item.stackSize; i++)
+                {
+                    AddItem(item.data);
+                }
+            }
+
+            foreach (var item in loadedEquipments)
+            {
+                EquipItem(item);
+            }
+
+            return;
+        }
+
         for (int i = 0; i < startingEquipment.Count; i++)
         {
             AddItem(startingEquipment[i]);
@@ -253,9 +276,12 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < materialsToRemove.Count; i++)
+        for (int i = 0; i < _requiredMaterials.Count; i++)
         {
-            RemoveItem(materialsToRemove[i].data);
+            for(int j = 0;j < _requiredMaterials[i].stackSize; j++)
+            {
+                RemoveItem(_requiredMaterials[i].data);
+            }
         }
 
         AddItem(_itemToCraft);
@@ -314,5 +340,68 @@ public class Inventory : MonoBehaviour
 
         Debug.Log("Armor on cooldown");
         return false;
+    }
+
+    public void LoadData(GameData _data)
+    {
+        foreach (var pair in _data.inventory)
+        {
+            foreach(var item in GetItemDataBase())
+            {
+                if(item != null && item.itemId == pair.Key)
+                {
+                    InventoryItem itemLoad = new InventoryItem(item);
+                    itemLoad.stackSize = pair.Value;
+
+                    loadedItems.Add(itemLoad);
+                }
+            }
+        }
+        foreach (var pair in _data.equipmentId)
+        {
+            foreach (var item in GetItemDataBase())
+            {
+                if (item != null && item.itemId == pair)
+                {
+                    loadedEquipments.Add(item as ItemData_Equipment);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.inventory.Clear();
+        _data.equipmentId.Clear();
+
+        foreach(var pair in inventoryDictionary)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (var pair in stashDictionary)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach(var pair in equipmentDictionary)
+        {
+            _data.equipmentId.Add(pair.Key.itemId);
+        }
+    }
+
+    private List<ItemData> GetItemDataBase()
+    {
+        List<ItemData> itemDataBase = new List<ItemData>();
+        string[] assetNames = AssetDatabase.FindAssets("", new[] { "Assets/Data/Items" });
+
+        foreach (var SOName in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            var itemData = AssetDatabase.LoadAssetAtPath<ItemData>(SOpath);
+            itemDataBase.Add(itemData);
+        }
+
+        return itemDataBase;
     }
 }

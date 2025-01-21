@@ -30,6 +30,29 @@ public class Dash_Skill : Skill
         cloneOnArrivalUnlockedButton.GetComponent<Button>().onClick.AddListener(UnlockCloneOnArrival);
     }
 
+    #region ½âËø¼¼ÄÜ
+
+    protected override void CheckUnlock()
+    {
+        UnlockDash();
+        UnlockCloneOnDash();
+        UnlockCloneOnArrival();
+    }
+
+    private void UnlockCloneOnDash()
+    {
+        if (cloneOnDashUnlockedButton.unlocked)
+            cloneOnDashUnlocked = true;
+    }
+
+    private void UnlockCloneOnArrival()
+    {
+        if(cloneOnArrivalUnlockedButton.unlocked)
+            cloneOnArrivalUnlocked = true;
+    }
+
+    #endregion
+
     public void CloneOnDash()
     {
         if (cloneOnDashUnlocked)
@@ -50,17 +73,5 @@ public class Dash_Skill : Skill
     {
         if(dashUnlockButton.unlocked)
             dashUnlocked = true;
-    }
-
-    private void UnlockCloneOnDash()
-    {
-        if (cloneOnDashUnlockedButton.unlocked)
-            cloneOnDashUnlocked = true;
-    }
-
-    private void UnlockCloneOnArrival()
-    {
-        if(cloneOnArrivalUnlockedButton.unlocked)
-            cloneOnArrivalUnlocked = true;
     }
 }

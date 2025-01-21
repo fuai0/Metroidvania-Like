@@ -17,7 +17,15 @@ public class Dodge_Skill : Skill
         base.Start();
 
         unlockDodgeButton.GetComponent<Button>().onClick.AddListener(UnlockDodge);
-        unlockMirageDodgeButton.GetComponent<Button>().onClick.AddListener(UnlockMirageDodge);
+        unlockMirageDodgeButton.GetComponent<Button>().onClick.AddListener(UnlockDodge);
+    }
+
+    #region ½âËø¼¼ÄÜ
+
+    protected override void CheckUnlock()
+    {
+        UnlockDodge();
+        UnlockMirageDodge();
     }
 
     private void UnlockDodge()
@@ -35,6 +43,8 @@ public class Dodge_Skill : Skill
         if(unlockMirageDodgeButton.unlocked)
             mirageDodgeUnlocked = true;
     }
+
+    #endregion
 
     public void CreateMirageOnDodge()
     {

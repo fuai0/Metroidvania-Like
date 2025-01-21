@@ -39,7 +39,16 @@ public class Clone_Skill : Skill
         crystalCloneButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalClone);
     }
 
+
     #region ½âËø¼¼ÄÜ
+
+    protected override void CheckUnlock()
+    {
+        UnlockCloneAttack();
+        UnlockAggresiveAttack();
+        UnlockMultClone();
+        UnlockCrystalClone();
+    }
 
     private void UnlockCloneAttack()
     {
