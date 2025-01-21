@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour,ISaveManager
@@ -32,9 +33,16 @@ public class PlayerManager : MonoBehaviour,ISaveManager
 
     public int GetCurrency() => currency;
 
+    private IEnumerator LoadCurrencyDelay(GameData _data)
+    {
+        yield return new WaitForSeconds(.2f);
+
+        this.currency = _data.currency;
+    }
+
     public void LoadData(GameData _data)
     {
-        this.currency = _data.currency;
+        StartCoroutine(LoadCurrencyDelay(_data));
     }
 
     public void SaveData(ref GameData _data)

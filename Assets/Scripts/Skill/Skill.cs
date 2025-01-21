@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Skill : MonoBehaviour
@@ -11,6 +12,12 @@ public class Skill : MonoBehaviour
     {
         player = PlayerManager.instance.player;
 
+        StartCoroutine(CheckUnlockDelay());
+    }
+
+    private IEnumerator CheckUnlockDelay()
+    {
+        yield return new WaitForSeconds(.2f);
         CheckUnlock();
     }
 

@@ -82,6 +82,9 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (isDead)
+            return;
+
         ignitedTimer -= Time.deltaTime;
         chilledTimer -= Time.deltaTime;
         shockedTimer -= Time.deltaTime;
@@ -311,6 +314,8 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void TakeDamage(int _damage)
     {
+        if (isDead)
+            return;
         DecreaseHealth(_damage);
 
         GetComponent<Entity>().DamageImpact();
@@ -319,6 +324,7 @@ public class CharacterStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
+            Debug.Log("take damage");
         }
     }
 
@@ -346,6 +352,9 @@ public class CharacterStats : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (isDead)
+            return;
+
         isDead = true;
     }
 
