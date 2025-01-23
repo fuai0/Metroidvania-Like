@@ -191,7 +191,7 @@ public class Sword_Skill : Skill
     }
 
 
-    #region Aim region
+    #region Ãé×¼
     public Vector2 AimDirection()
     {
         Vector2 playerPosition = player.transform.position;

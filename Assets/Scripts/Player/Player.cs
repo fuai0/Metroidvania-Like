@@ -8,7 +8,7 @@ public class Player : Entity
     public float counterAttackDuration = .2f;
 
 
-    public bool isBusy {  get; private set; }
+    public bool isBusy { get; private set; }
     [Header("Move info")]
     public float moveSpeed;
     public float jumpForce;
@@ -20,9 +20,9 @@ public class Player : Entity
     public float dashSpeed;
     public float dashDuration;
     private float defaultDashSpeed;
-    public float dashDir {  get; private set; }
+    public float dashDir { get; private set; }
 
-    public SkillManager skill {  get; private set; }
+    public SkillManager skill { get; private set; }
     public GameObject sword { get; private set; }
 
     #region ̬States
@@ -49,8 +49,8 @@ public class Player : Entity
     {
         stateMachine = new PlayerStateMachine();
 
-        idleState = new PlayerIdleState(this,stateMachine,"Idle");
-        moveState = new PlayerMoveState(this,stateMachine,"Move");
+        idleState = new PlayerIdleState(this, stateMachine, "Idle");
+        moveState = new PlayerMoveState(this, stateMachine, "Move");
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         airState = new PlayerAirState(this, stateMachine, "Jump");
         dashState = new PlayerDashState(this, stateMachine, "Dash");
@@ -84,18 +84,21 @@ public class Player : Entity
     {
         base.Update();
 
+        if (Time.timeScale == 0)
+            return;
+
         stateMachine.currentState.Update();
 
         CheckForDashInput();
 
-        if(Input.GetKeyDown(KeyCode.F) && skill.crystal.crystalUnlocked)
+        if (Input.GetKeyDown(KeyCode.F) && skill.crystal.crystalUnlocked)
         {
             skill.crystal.CanUseSkill();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
             Inventory.instance.UseFlask();
-        
+
     }
 
     public override void SlowEntity(float _slowPrecentage, float _slowDuration)
@@ -146,17 +149,17 @@ public class Player : Entity
 
     private void CheckForDashInput()
     {
-        if(IsWallDetected())
+        if (IsWallDetected())
             return;
 
         if (!skill.dash.dashUnlocked)
             return;
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
+        if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
             dashDir = Input.GetAxisRaw("Horizontal");
 
-            if(dashDir == 0)
+            if (dashDir == 0)
             {
                 dashDir = facingDir;
             }

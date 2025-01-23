@@ -1,8 +1,8 @@
-using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine;
 
-public class FileDataHandler 
+public class FileDataHandler
 {
     private string dataDirPath = "";
     private string dataFileName = "";
@@ -27,12 +27,12 @@ public class FileDataHandler
 
             string dataStore = JsonUtility.ToJson(_data, true);
 
-            if(encryptData)
+            if (encryptData)
                 dataStore = EncryptDecrypt(dataStore);
 
-            using (FileStream stream = new FileStream(fullPath,FileMode.Create))
+            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
             {
-                using(StreamWriter writer = new StreamWriter(stream))
+                using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.Write(dataStore);
                 }
@@ -48,10 +48,10 @@ public class FileDataHandler
 
     public GameData Load()
     {
-        string fullPath = Path.Combine(dataDirPath,dataFileName);
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadData = null;
 
-        if(File.Exists(fullPath))
+        if (File.Exists(fullPath))
         {
             try
             {
@@ -82,7 +82,7 @@ public class FileDataHandler
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
 
-        if(File.Exists(fullPath))
+        if (File.Exists(fullPath))
             File.Delete(fullPath);
     }
 
@@ -90,7 +90,7 @@ public class FileDataHandler
     {
         string modifiedDate = "";
 
-        for(int i = 0; i < _data.Length; i++)
+        for (int i = 0; i < _data.Length; i++)
         {
             modifiedDate += (char)(_data[i] ^ codeWord[i % codeWord.Length]);
         }

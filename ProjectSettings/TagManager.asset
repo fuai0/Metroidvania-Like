@@ -59,5 +59,8 @@ TagManager:
   - name: Player
     uniqueID: 763893687
     locked: 0
+  - name: FX
+    uniqueID: 2302924685
+    locked: 0
   m_RenderingLayers:
   - Default

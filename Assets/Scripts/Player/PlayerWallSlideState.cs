@@ -40,11 +40,11 @@ public class PlayerWallSlideState : PlayerState
             rb.linearVelocity = new Vector2(0,rb.linearVelocity.y*.7f);
         }
 
-        
+
+        if (!player.IsWallDetected())
+            stateMachine.ChangeState(player.airState);
 
         if(player.IsGroundDetected())
-        {
             stateMachine.ChangeState(player.idleState);
-        }
     }
 }

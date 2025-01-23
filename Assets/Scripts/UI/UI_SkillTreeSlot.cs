@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -36,6 +37,12 @@ public class UI_SkillTreeSlot : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         ui = GetComponentInParent<UI>();
 
         skillImage.color = lockedSkillColor;
+        StartCoroutine(DelayToChange());
+    }
+
+    private IEnumerator DelayToChange()
+    {
+        yield return new WaitForSeconds(.01f);
         if (unlocked)
             skillImage.color = Color.white;
     }

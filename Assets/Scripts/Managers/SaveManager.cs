@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class SaveManager : MonoBehaviour
 {
@@ -21,7 +21,6 @@ public class SaveManager : MonoBehaviour
             instance = this;
 
     }
-
     private void Start()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
@@ -48,7 +47,6 @@ public class SaveManager : MonoBehaviour
 
         if (this.gameData == null)
         {
-            Debug.Log("No save data");
             NewGame();
         }
 
@@ -76,13 +74,12 @@ public class SaveManager : MonoBehaviour
     private List<ISaveManager> FindAllSaveManagers()
     {
         IEnumerable<ISaveManager> saveManagers = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID).OfType<ISaveManager>();
-
         return new List<ISaveManager>(saveManagers);
     }
 
     public bool HasSavedData()
     {
-        if(dataHandler.Load() != null)
+        if (dataHandler.Load() != null)
             return true;
 
         return false;

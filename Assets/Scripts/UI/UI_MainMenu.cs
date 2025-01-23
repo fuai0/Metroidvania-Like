@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class UI_MainMenu : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class UI_MainMenu : MonoBehaviour
 
     private void Start()
     {
-        if(!SaveManager.instance.HasSavedData())
+        if (!SaveManager.instance.HasSavedData())
             continueButton.SetActive(false);
     }
 
@@ -28,7 +27,7 @@ public class UI_MainMenu : MonoBehaviour
 
     public void ExitGame()
     {
-
+        Application.Quit();
     }
 
     IEnumerator LoadScenceWithFadeEffect(float _delay)

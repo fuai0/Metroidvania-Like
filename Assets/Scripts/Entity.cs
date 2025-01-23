@@ -6,7 +6,7 @@ public class Entity : MonoBehaviour
     [Header("Knockback info")]
     [SerializeField] protected Vector2 knockbackDirection;
     [SerializeField] protected float knockbackDuration;
-    protected bool isKnocked; 
+    protected bool isKnocked;
 
     [Header("Collision info")]
     public Transform attackCheck;
@@ -52,7 +52,7 @@ public class Entity : MonoBehaviour
 
     }
 
-    public virtual void SlowEntity(float _slowPrecentage,float _slowDuration)
+    public virtual void SlowEntity(float _slowPrecentage, float _slowDuration)
     {
         anim.speed = anim.speed * (1 - _slowPrecentage);
     }
@@ -87,7 +87,7 @@ public class Entity : MonoBehaviour
 
     public virtual void SetVelocity(float _xVelocity, float _yVelocity)
     {
-        if(isKnocked)
+        if (isKnocked)
         {
             return;
         }
@@ -111,7 +111,7 @@ public class Entity : MonoBehaviour
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance*facingDir, wallCheck.position.y));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
         Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
 
@@ -124,7 +124,7 @@ public class Entity : MonoBehaviour
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
 
-        if(onFlipped !=  null)
+        if (onFlipped != null)
             onFlipped();
     }
 
@@ -142,7 +142,7 @@ public class Entity : MonoBehaviour
     }
 
     #endregion
-    
+
     public virtual void Die()
     {
 

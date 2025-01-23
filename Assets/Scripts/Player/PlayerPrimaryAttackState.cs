@@ -16,6 +16,8 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
+        //AudioManager.instance.PlaySfx(0);
+
         xInput = 0;
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
@@ -26,7 +28,7 @@ public class PlayerPrimaryAttackState : PlayerState
         player.anim.SetInteger("ComboCounter",comboCounter);
         player.anim.speed = 1.2f;
 
-        #region Choose Attack Direction
+        #region Ñ¡Ôñ¹¥»÷·½Ïò
         float attackDir = player.facingDir;
 
         if(xInput!=0)

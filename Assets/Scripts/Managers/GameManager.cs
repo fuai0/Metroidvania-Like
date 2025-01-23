@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour, ISaveManager
         lostCurrencyY = _data.lostCurrencyY;
         lostCurrencyAmount = _data.lostCurrencyAmount;
 
-        if (lostCurrencyAmount > lostCurrencyX)
+        if (lostCurrencyAmount > 0)
         {
             GameObject newLostCurrency = Instantiate(lostCurrencyPrefab, new Vector3(lostCurrencyX, lostCurrencyY), Quaternion.identity);
             newLostCurrency.GetComponent<LostCurrencyController>().currency = lostCurrencyAmount;
@@ -110,5 +110,13 @@ public class GameManager : MonoBehaviour, ISaveManager
         }
 
         return closestCheckPoint;
+    }
+
+    public void PauseGame(bool _pause)
+    {
+        if (_pause)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
     }
 }

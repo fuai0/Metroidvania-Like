@@ -20,6 +20,8 @@ public class SkeletonMoveState : SkeletonGroundedState
     {
         base.Update();
 
+        AudioManager.instance.PlaySfx(1, enemy.transform);
+
         enemy.SetVelocity(enemy.facingDir * enemy.moveSpeed, rb.linearVelocity.y);
 
         if(enemy.IsWallDetected() || !enemy.IsGroundDetected())

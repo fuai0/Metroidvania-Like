@@ -1,16 +1,19 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_Options : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public void BackToTitle()
     {
-        
+        SaveManager.instance.SaveGame();
+        SceneManager.LoadScene("MainMenu");
+        Time.timeScale = 1;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ExitGame()
     {
-        
+        SaveManager.instance.SaveGame();
+        Application.Quit();
     }
 }

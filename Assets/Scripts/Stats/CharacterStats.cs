@@ -324,7 +324,6 @@ public class CharacterStats : MonoBehaviour
         if (currentHealth <= 0)
         {
             Die();
-            Debug.Log("take damage");
         }
     }
 
@@ -357,6 +356,8 @@ public class CharacterStats : MonoBehaviour
 
         isDead = true;
     }
+
+    public void Kill() => Die();
 
     #region Õ≥º∆º∆À„
     protected int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)

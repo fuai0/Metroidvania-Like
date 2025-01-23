@@ -48,10 +48,10 @@ public class UI_InGame : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && skills.crystal.crystalUnlocked)
             SetCooldown(crystalImage);
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && skills.sword.swordUnlocked)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && skills.sword.swordUnlocked && PlayerManager.instance.player.IsGroundDetected())
             SetCooldown(swordImage);
 
-        if (Input.GetKeyDown(KeyCode.R) && skills.blackHole.blackholeUnlocked)
+        if (Input.GetKeyDown(KeyCode.R) && skills.blackHole.blackholeUnlocked && PlayerManager.instance.player.IsGroundDetected())
             SetCooldown(blackholeImage);
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && Inventory.instance.GetEquipment(EquipmentType.Flask) != null)
